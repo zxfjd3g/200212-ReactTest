@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>03_component_basic</title>
+</head>
+<body>
+
+  <div id="example1"></div>
+  <div id="example2"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    /* 
+    定义组件的2种方式 
+    1. 工厂函数组件(无状态组件)   state === data
+    2. ES6类组件(有状态组件)
+    */
+    // 1. 定义组件
+      // 1). 工厂函数组件
+    function FunctionComp () {
+      console.log('FunctionComp()', this) // 函数组件不会创建实例对象, this是undefined
+      return <h2>工厂函数组件</h2>
+    }
+      // 2). ES6类组件
+    class ClassComp extends React.Component {
+
+      /* 必须重写这个回调方法 */
+      render () {
+        console.log('render()', this) // this是当前组件类ClassComp的实例对象
+        // 返回要渲染显示的虚拟DOM
+        return <h2>ES6类组件</h2>
+      }
+    }
+
+    // 2. 渲染组件标签
+    /* 
+    渲染函数组件标签:
+      调用组件函数, 得到虚拟DOM对象
+       解析生成真实DOM
+      渲染到页面上
+     */
+    ReactDOM.render(<FunctionComp />, document.getElementById('example1'))
+    /* 
+    一旦渲染类组件标签: 
+      创建组件类的实例对象, 
+      调用其render()方法得到虚拟DOM对象
+      解析生成真实DOM
+      渲染到页面上
+     */
+    ReactDOM.render(<ClassComp />, document.getElementById('example2'))
+
+    /* 
+    注意:
+      组件名首字母必须大写
+      组件必须要有根标签
+    */
+  </script>
+</body>
+</html>

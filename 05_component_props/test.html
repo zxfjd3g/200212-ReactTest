@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>05_component_props</title>
+</head>
+<body>
+
+<div id="example1"></div>
+<div id="example2"></div>
+<div id="example3"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!-- 提供一个PropTypes对象 -->
+<script type="text/javascript" src="../js/prop-types.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+  /* 
+  props的2个操作
+    1). 在组件外部, 向组件标签传入标签属性 <Person xxx={xxx}>
+    2). 在组件内部, 读取标签属性: this.props.xxx
+  限定属性的属性名/属性值类型/属性必要性: static propTypes = {}
+  限定属性的默认值: static defaultProps = {}
+  一次性给组件标签传入多个属性: {...p}  ==> 将对象的所有属性分别传入组件
+  */
+
+  /*
+  需求: 自定义用来显示一个人员信息的组件, 效果如页面. 说明
+  1). 姓名是必须的
+  2). 如果性别没有指定, 默认为男
+  3). 如果年龄没有指定, 默认为18
+  */
+  // 定义组件
+  class Person extends React.Component {
+    /* 
+    不加static: 给组件实例对象指定属性
+    加static: 给组件类指定属性
+     */
+    /* 限定属性的属性名/属性值类型/属性必要性 */
+    static propTypes = {
+      name: PropTypes.string.isRequired,
+      age: PropTypes.number,
+      sex: PropTypes.string,
+    }
+    /* 限定属性的默认值 */
+    static defaultProps = {
+      age: 18,
+      sex: '男'
+    }
+
+    // constructor(props) {  
+    //   super(props)  // 如果写构造器, 就传入props
+    //   // console.log('constructor', this.props.name)
+    // }
+
+    render () {
+      const {name, age, sex} = this.props
+      return (
+        <ul>
+          <li>姓名: {name}</li>
+          <li>年龄: {age}</li>
+          <li>性别: {sex}</li>
+        </ul>
+      )
+    }
+  }
+
+  // 定义函数组件
+  function Person2(props) {
+    return (
+      <ul>
+        <li>姓名: {props.name}</li>
+        <li>年龄: {props.age}</li>
+        <li>性别: {props.sex}</li>
+      </ul>
+    )
+  }
+
+  /* 限定属性的属性名/属性值类型/属性必要性 */
+  Person2.propTypes = {
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number,
+    sex: PropTypes.string,
+  }
+  /* 限定属性的默认值 */
+  Person2.defaultProps = {
+    age: 22,
+    sex: '女'
+  }
+
+
+  const p = {
+    name: 'tom',
+    age: 21,
+    sex: '女'
+  }
+
+  // 渲染组件标签
+  // ReactDOM.render(<Person name={p.name} age={p.age} sex={p.sex}/>, document.getElementById('example1'))
+  ReactDOM.render(<Person {...p}/>, document.getElementById('example1'))
+
+  ReactDOM.render(<Person name={'2'} age={23}/>, document.getElementById('example2'))
+
+  ReactDOM.render(<Person2 name={'bob'}/>, document.getElementById('example3'))
+
+
+</script>
+</body>
+</html>
+

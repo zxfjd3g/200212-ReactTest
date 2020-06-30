@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>02_JSX_DEMO</title>
+</head>
+<body>
+  <h2>前端JS框架列表</h2>
+  <div id="root"></div>
+  <div id="root2"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    const names = ['jQuery', 'Vue', 'React']
+    /* 
+    重要技术:
+    1. 使用jsx创建虚拟DOM
+    2. React渲染时会自动遍历数组中的元素内容显示
+    3. 根据数据的数组生成标签(<li>)的数组: map
+    */
+
+    // 创建虚拟DOM
+    // 数据数组 => 标签(虚拟DOM)的数组
+    const lis = names.map((name, index) => <li key={index}>{name}</li>)
+    // ul标签(虚拟DOM), 将lis作为其内容
+    const vDOM = <ul>{lis}</ul>
+    // 渲染虚拟DOM
+    ReactDOM.render(vDOM, document.getElementById('root'))
+
+
+    /* 简写一下 */
+    // const vDOM = <ul>{names.map(name => <li>{name}</li>)}</ul>
+    const vDOM2 = (
+      <ul>
+        {
+          names.map((name, index) => <li key={index}>{name}</li>)
+        }
+      </ul>
+    )
+
+    ReactDOM.render(vDOM2, document.getElementById('root2'))
+
+  </script>
+</body>
+</html>

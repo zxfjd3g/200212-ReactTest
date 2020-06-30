@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>06_component_refs_event</title>
+</head>
+<body>
+<br>
+  <div id="example"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    /*
+    需求: 自定义组件, 功能说明如下:
+      1. 界面如果页面所示
+      2. 点击按钮, 提示第一个输入框中的值
+      3. 当第2个输入框失去焦点时, 提示这个输入框中的值
+   */
+
+    class MyComponent extends React.Component {
+
+      /* 1. 创建ref容器对象:  */
+      contentRef = React.createRef()
+
+
+      hint = () => {
+        // 得到input标签对象
+        const input = this.refs.content
+        // 提示其值
+        alert(input.value)
+      }
+
+      hint2 = () => {
+        // 得到input标签对象
+        const input = this.contentInput
+        // 提示其值
+        alert(input.value)
+      }
+
+      hint3 = () => {
+        // 得到input标签对象
+        /* 3.通过ref容器读取得到标签对象 */
+        const input = this.contentRef.current
+        // 提示其值
+        alert(input.value)
+      }
+
+      handleBlur = (e) => {
+        console.log(e.target.value)
+      }
+
+      /* 
+      input输入发生改变的监听回调: 相当于vue中的input监听
+      */
+      handleChange = (e) => {
+        console.log(e.target.value)
+      }
+
+      /* 
+      按钮点击抬起时的监听回调
+      */
+      handleKeyUp = (e) => {
+        if (e.keyCode===13) {
+          console.log(e.target.value)
+        }
+      }
+
+      render () {
+        return (
+          <div>
+            <input ref="content"/> &nbsp;
+            <button onClick={this.hint}>点击提示(使用string refs)</button>&nbsp;
+
+            <input ref={input => this.contentInput = input}/> &nbsp;
+            <button onClick={this.hint2}>点击提示(使用回调函数)</button>&nbsp;
+
+            {/* 2.将ref容器传递给要标识的标签 */}
+            <input ref={this.contentRef}/> &nbsp;
+            <button onClick={this.hint3}>点击提示(使用ref容器)</button>&nbsp;
+            
+            <br/>
+            <br/>
+
+            <input placeholder="失去焦点提示" onBlur={this.handleBlur()} 
+              onChange={this.handleChange}/>
+            <input placeholder="点enter键提示" onKeyUp={this.handleKeyUp}/>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(<MyComponent/>, document.getElementById('example'))
+
+   
+  </script>
+</body>
+</html>

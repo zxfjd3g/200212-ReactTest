@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>02_JSX</title>
+</head>
+<body>
+  <div id="test1"></div>
+  <div id="test2"></div>
+  <!-- 
+    创建虚拟DOM的2种方法
+      使用js语法: React.createElement(tagName, props, content)
+      使用jsx语法: <h2 id={id}>{content.toUpperCase()}</h2>
+    作用:
+      创建虚拟DOM对象(简洁写法)   
+    语法:
+      以<xxx开头, 以/xxx>结尾(可以自闭合)
+      如果属性值或标签体文本内容包含动态的js代码: 需要用{}包含起来  {{express}}
+    区别虚拟DOM与真实DOM?
+      虚拟DOM是一个较轻的一般的JS对象
+      虚拟DOM解析后最终都产生对应的真实DOM
+      更新虚拟DOM界面不会更新的, 只有后面更新了真实DOM界面才会变化
+  -->
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script>
+    let id = 'atguigu'
+    const content = 'I Like You'
+    // 1. 创建虚拟DOM对象
+      /* 创建方式一: 使用js语法 */
+    const vDOM = React.createElement('h2', {id}, content)  
+    console.log('vDOM', vDOM)
+    console.dir(document.getElementById('test1')) // 方便打印DOM对象
+    // 2. 渲染DOM
+    ReactDOM.render(vDOM, document.getElementById('test1'))
+  </script>
+
+  <script src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    // 1. 创建虚拟DOM对象
+     /* 创建方式二: 使用jsx语法 */
+    const vDOM2 = <h2 id={id}>--{content.toUpperCase()}--</h2>
+    // 2. 渲染DOM
+    ReactDOM.render(vDOM2, document.getElementById('test2'))
+  </script>
+</body>
+</html>

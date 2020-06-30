@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>01_HelloWorld</title>
+</head>
+<body>
+
+  <div id="root"></div>
+  <!-- 向外提供React对象 -->
+  <script src="../js/react.development.js"></script>
+  <!-- 向外提供ReactDOM对象 -->
+  <script src="../js/react-dom.development.js"></script>
+  <!-- 将jsx语法编译为js的工具包 -->
+  <script src="../js/babel.min.js"></script>
+  <script type="text/babel"> /* 让babel先对jsx的代码进行编译后再运行 */
+    // 1. 创建虚拟DOM对象
+    const virtualDOM = <h1>Hello React!</h1> // 不能加引号  当前是jsx语法创建的虚拟DOM对象
+
+    // 2. 将虚拟DOM对象渲染到页面DOM容器中
+    ReactDOM.render(virtualDOM, document.getElementById('root'))
+  </script>
+</body>
+</html>
