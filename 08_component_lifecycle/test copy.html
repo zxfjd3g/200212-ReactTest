@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>08_ComponentLife</title>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/javascript" src="../js/react.development.js"></script>
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+
+  class Parent extends React.Component {
+
+    state = {
+      hasChild: true
+    }
+
+    handleClick = () => {
+      this.setState({
+        hasChild: !this.state.hasChild
+      })
+    }
+
+    render () {
+      console.log('Parent render()')
+      return (
+        <div>
+          <h2>Parent组件标题</h2>
+          <button onClick={this.handleClick}>更新</button>
+          <br/>
+          <br/>
+          {this.state.hasChild ? <Child /> : null}
+        </div>
+      )
+    }
+  }
+
+  class Child extends React.Component {
+
+    constructor (props) {
+      super(props)
+      console.log('-Child constructor')
+    }
+
+    componentWillMount () {
+      console.log('-Child componentWillMount')
+    }
+
+    componentDidMount () {
+      console.log('-Child componentDidMount')
+    }
+
+    componentWillReceiveProps () {
+      console.log('-Child componentWillReceiveProps')
+    }
+    shouldComponentUpdate () {
+      console.log('-Child shouldComponentUpdate')
+      return true
+      // return false
+    }
+
+    componentWillUpdate () {
+      console.log('-Child componentWillUpdate')
+    }
+    componentDidUpdate () {
+      console.log('-Child componentDidUpdate')
+    }
+
+    componentWillUnmount () {
+      console.log('-Child componentWillUnmount')
+    }
+
+    update1 = () => {
+      this.setState({}) 
+    }
+
+    update2 = () => {
+      this.forceUpdate(()=> {})
+    }
+
+    unmount = () => {
+      ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+    }
+
+    render () {
+      console.log('Child render')
+      return (
+        <div>
+          <h2>Child组件标题</h2>
+          <button onClick={this.update1}>常规更新</button>
+          <button onClick={this.update2}>强制更新</button>
+          <button onClick={this.unmount}>卸载</button>
+        </div>
+      )
+    }
+  }
+
+  
+
+  ReactDOM.render(<Parent/>, document.getElementById('example'))
+</script>
+</body>
+</html>
