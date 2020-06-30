@@ -24,19 +24,82 @@
     2. 输入用户名密码后, 点击登陆提示输入信息
     3. 不提交表单
   */
+  /* 
+  非受控组件: 输入过程中不收集数据, 点击提交时才读取输入框的数据  ==> 用得少
+  */
   class LoginForm extends React.Component {
+
+    nameRef = React.createRef()
+    pwdRef = React.createRef()
+
+    login = (e) => {
+      // 阻止事件的默认行为
+      e.preventDefault()
+
+      // 读取输入框输入数据
+      const name = this.nameRef.current.value
+      const pwd = this.pwdRef.current.value
+
+      alert(`提交登陆ajax请求: 参数: name: ${name}, pwd: ${pwd}`)
+    }
 
     render () {
       return (
-        <form>
-          用户名: <input type="text" /> &nbsp;
-          密码: <input type="text" /> &nbsp;
+        <form action="/xxx" onSubmit={this.login}>
+          用户名: <input type="text" ref={this.nameRef}/> &nbsp;
+          密码: <input type="text" ref={this.pwdRef}/> &nbsp;
+          <input type="submit" value="登陆" />
         </form>
       )
     }
   }
 
   ReactDOM.render(<LoginForm />, document.getElementById('root'))
+
+  /* 受控组件: 输入过程收集数据(state + onChange), 点击提交只需要读取state数据 */
+  class LoginForm2 extends React.Component {
+
+    state = {
+      name: 'tom',
+      pwd: '321'
+    }
+
+    login = (e) => {
+      // 阻止事件的默认行为
+      e.preventDefault()
+      // 读取state中的数据
+      const {name, pwd} = this.state
+
+      alert(`提交登陆ajax请求: 参数: name: ${name}, pwd: ${pwd}`)
+    }
+
+    handleNameChange = (e) => {
+      // 根据输入数据更新name状态
+      this.setState({
+        name: e.target.value.trim()
+      })
+    }
+    
+    handlePwdChange = (e) => {
+      // 根据输入数据更新pwd状态
+      this.setState({
+        pwd: e.target.value.trim()
+      })
+    }
+
+    render () {
+      const {name, pwd} = this.state
+      return (
+        <form action="/xxx" onSubmit={this.login}>
+          用户名: <input type="text" value={name} onChange={this.handleNameChange}/> &nbsp;
+          密码: <input type="text" value={pwd} onChange={this.handlePwdChange}/> &nbsp;
+          <input type="submit" value="登陆" />
+        </form>
+      )
+    }
+  }
+
+ReactDOM.render(<LoginForm2 />, document.getElementById('root2'))
 </script>
 </body>
 </html>
