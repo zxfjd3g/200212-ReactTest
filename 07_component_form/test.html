@@ -87,13 +87,68 @@
       })
     }
 
+    /* 
+    用来处理name或pwd的改变
+     */
+    handleChange = (e, key) => {
+      this.setState({
+        [key]: e.target.value.trim()
+      })
+    }
+
+    /* 
+    使用高阶函数封装
+    高阶函数: 
+      1. 返回函数的函数: bind()
+      2. 接收的函数参数的函数  arr.forEach()/map()/filter()/reduce()/setTimeout()
+    函数柯里化: 通过函数返回函数来多次接收数据
+      function sum(a, b, c) {
+        return a + b + c
+      }
+      sum(1, 2, 3) => 6
+      function sum2 (a) {
+        return (b) => {
+          return (c) => {
+            return a + b + c
+          }
+        }
+      }
+      sum2(1)(2)(3)  => 6
+     */
+    handleChange2 = (key) => {
+      return (e) => { // change事件发生自动调用, 并传入了事件对象
+        this.setState({
+          [key]: e.target.value.trim()
+        })
+      }
+    }
+
     render () {
       const {name, pwd} = this.state
       return (
         <form action="/xxx" onSubmit={this.login}>
-          用户名: <input type="text" value={name} onChange={this.handleNameChange}/> &nbsp;
-          密码: <input type="text" value={pwd} onChange={this.handlePwdChange}/> &nbsp;
+          {
+            /* 
+            用户名: <input type="text" value={name} onChange={this.handleNameChange}/> &nbsp;
+            密码: <input type="text" value={pwd} onChange={this.handlePwdChange}/> &nbsp;
+             */
+          }
+          {
+            /* 
+              用户名: <input type="text" value={name} 
+            onChange={(e) => this.handleChange(e, 'name') }/> &nbsp;
+            密码: <input type="text" value={pwd} 
+              onChange={(e) => this.handleChange(e, 'pwd') }/> &nbsp;
+            */
+          }
+          用户名: <input type="text" value={name} 
+            onChange={this.handleChange2('name') }/> &nbsp;
+          密码: <input type="text" value={pwd} 
+            onChange={this.handleChange2('pwd')}/> &nbsp;
+
+            
           <input type="submit" value="登陆" />
+
         </form>
       )
     }
